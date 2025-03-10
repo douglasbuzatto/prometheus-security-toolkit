@@ -20,7 +20,7 @@ python prometheus_massacre_ultimate.py --url http://seu-prometheus:9090
 
 | Opção | Descrição |
 |-------|-----------|
-| `--url` | URL do Prometheus alvo (ex: http://191.242.216.124:9090) |
+| `--url` | URL do Prometheus alvo (ex: http://192.168.100.100:9090) |
 | `--stealth` | Modo stealth (1 req/seg) para evitar detecção |
 | `--massacre` | Modo massacre (paralelismo máximo) para coleta agressiva |
 | `--depth` | Profundidade de análise (1-5), onde 5 é a mais profunda |
@@ -30,22 +30,22 @@ python prometheus_massacre_ultimate.py --url http://seu-prometheus:9090
 
 Análise básica:
 ```bash
-python prometheus_massacre_ultimate.py --url http://191.242.216.124:9090
+python prometheus_massacre_ultimate.py --url http://192.168.100.100:9090
 ```
 
 Análise sigilosa:
 ```bash
-python prometheus_massacre_ultimate.py --url http://191.242.216.124:9090 --stealth
+python prometheus_massacre_ultimate.py --url http://192.168.100.100:9090 --stealth
 ```
 
 Análise profunda e agressiva:
 ```bash
-python prometheus_massacre_ultimate.py --url http://191.242.216.124:9090 --massacre --depth 5
+python prometheus_massacre_ultimate.py --url http://192.168.100.100:9090 --massacre --depth 5
 ```
 
 Análise com diretório personalizado:
 ```bash
-python prometheus_massacre_ultimate.py --url http://191.242.216.124:9090 --output prometheus_resultados
+python prometheus_massacre_ultimate.py --url http://192.168.100.100:9090 --output prometheus_resultados
 ```
 
 ### 2. Analisador de Dumps
