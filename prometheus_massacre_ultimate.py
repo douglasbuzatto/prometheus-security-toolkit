@@ -14,7 +14,7 @@ import socket
 # ==============================
 
 parser = argparse.ArgumentParser(description="Prometheus Massacre Ultimate - Coleta brutal de dados")
-parser.add_argument("--url", default="http://191.242.216.124:9090", help="URL do Prometheus alvo")
+parser.add_argument("--url", default="http://192.168.100.1:9090", help="URL do Prometheus alvo")
 parser.add_argument("--stealth", action="store_true", help="Modo stealth (1 req/seg)")
 parser.add_argument("--massacre", action="store_true", help="Modo massacre (paralelismo máximo)")
 parser.add_argument("--depth", type=int, default=1, help="Profundidade de análise (1-5)")
