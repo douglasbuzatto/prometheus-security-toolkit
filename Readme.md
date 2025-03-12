@@ -20,7 +20,7 @@ python prometheus_massacre_ultimate.py --url http://seu-prometheus:9090
 
 | Opção | Descrição |
 |-------|-----------|
-| `--url` | URL do Prometheus alvo (ex: http://192.168.100.100:9090) |
+| `--url` | URL do Prometheus alvo (ex: http://192.168.100.1:9090) |
 | `--stealth` | Modo stealth (1 req/seg) para evitar detecção |
 | `--massacre` | Modo massacre (paralelismo máximo) para coleta agressiva |
 | `--depth` | Profundidade de análise (1-5), onde 5 é a mais profunda |
@@ -30,25 +30,71 @@ python prometheus_massacre_ultimate.py --url http://seu-prometheus:9090
 
 Análise básica:
 ```bash
-python prometheus_massacre_ultimate.py --url http://192.168.100.100:9090
+python prometheus_massacre_ultimate.py --url http://192.168.100.1:9090
 ```
 
 Análise sigilosa:
 ```bash
-python prometheus_massacre_ultimate.py --url http://192.168.100.100:9090 --stealth
+python prometheus_massacre_ultimate.py --url http://192.168.100.1:9090 --stealth
 ```
 
 Análise profunda e agressiva:
 ```bash
-python prometheus_massacre_ultimate.py --url http://192.168.100.100:9090 --massacre --depth 5
+python prometheus_massacre_ultimate.py --url http://192.168.100.1:9090 --massacre --depth 5
 ```
 
 Análise com diretório personalizado:
 ```bash
-python prometheus_massacre_ultimate.py --url http://192.168.100.100:9090 --output prometheus_resultados
+python prometheus_massacre_ultimate.py --url http://192.168.100.1:9090 --output prometheus_resultados
 ```
 
-### 2. Analisador de Dumps
+### 2. Verificador de Vulnerabilidade DoS
+
+Ferramenta que verifica se uma instância Prometheus é vulnerável a ataques de negação de serviço.
+
+#### Uso Básico
+
+```bash
+python prometheus_ddos_vulnerability_checker.py -u http://seu-prometheus:9090
+```
+
+#### Opções Completas
+
+| Opção | Descrição |
+|-------|-----------|
+| `-u, --url` | URL do servidor Prometheus (obrigatório) |
+| `-t, --timeout` | Timeout para requisições em segundos (padrão: 10) |
+| `-c, --concurrency` | Número de testes concorrentes (padrão: 3) |
+| `-p, --port-timeout` | Timeout para verificação de porta (padrão: 3.0) |
+| `-v, --verbose` | Modo verboso com mais informações |
+| `--no-banner` | Não mostrar o banner de início |
+| `--no-color` | Desabilitar cores no output |
+| `--log-file` | Arquivo para salvar logs (ex: prometheus_check.log) |
+| `--username` | Usuário para autenticação básica |
+| `--password` | Senha para autenticação básica |
+| `--token` | Token de autenticação |
+| `--ignore-ssl` | Ignorar verificação de certificados SSL |
+| `--rate-limit-test` | Testar existência de rate limiting |
+| `--output` | Arquivo de saída para o relatório JSON |
+
+#### Exemplos de Uso
+
+Verificação básica:
+```bash
+python prometheus_ddos_vulnerability_checker.py -u http://seu-prometheus:9090
+```
+
+Verificação com autenticação:
+```bash
+python prometheus_ddos_vulnerability_checker.py -u http://seu-prometheus:9090 --username admin --password senha
+```
+
+Verificação completa com teste de rate limiting:
+```bash
+python prometheus_ddos_vulnerability_checker.py -u http://seu-prometheus:9090 --rate-limit-test --verbose
+```
+
+### 3. Analisador de Dumps
 
 Ferramenta para análise avançada de dumps de memória em busca de dados sensíveis.
 
@@ -92,6 +138,16 @@ A profundidade da análise define quanto a ferramenta vai explorar:
 - **Nível 2-3**: Coleta endpoints e executa queries PromQL
 - **Nível 4-5**: Análise completa com busca por outros serviços e exporters
 
+### Verificador de Vulnerabilidade DoS
+Esta ferramenta verifica se uma instância Prometheus é suscetível a ataques de negação de serviço, examinando:
+- Endpoints vulneráveis que consomem muitos recursos (ex: heap profiling)
+- Consultas PromQL potencialmente pesadas
+- Exposição pública do servidor
+- Implementação de rate limiting
+- Vulnerabilidades em endpoints de federação
+
+A ferramenta gera uma pontuação de risco de 0 a 10 e fornece recomendações específicas para mitigar as vulnerabilidades detectadas, sem realizar ataques reais ao alvo.
+
 ### Analisador de Dumps
 Esta ferramenta examina arquivos de despejo de memória (.dump, pprof) extraídos durante um ataque ao Prometheus. Ela procura por:
 - Chaves de API e tokens
@@ -107,7 +163,7 @@ git clone https://github.com/seu-usuario/prometheus-security-toolkit.git
 cd prometheus-security-toolkit
 
 # Instale as dependências necessárias
-pip install requests os re zipfile json argparse time concurrent.futures datetime socket colorama
+pip install requests argparse concurrent.futures
 ```
 
 ## Resultados
@@ -118,6 +174,13 @@ A ferramenta cria um diretório com os seguintes resultados:
 - Arquivos com vazamentos marcados como "LEAKS_*"
 - Análise dos resultados JSON
 - Relatório final "_RELATORIO_FINAL.txt"
+
+### Verificador de Vulnerabilidade DoS
+A ferramenta gera:
+- Relatório detalhado com índice de vulnerabilidade
+- Lista de todos os endpoints vulneráveis
+- Recomendações de segurança específicas
+- Arquivo JSON com todos os resultados para análise posterior
 
 ### Analisador de Dumps
 A ferramenta cria:
