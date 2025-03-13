@@ -1,202 +1,226 @@
 # Prometheus Security Toolkit
 
-Um conjunto de ferramentas para análise de segurança de servidores Prometheus expostos.
+A toolkit for security analysis of exposed Prometheus servers.
 
-## Ferramentas Incluídas
+## Requirements
 
-O toolkit contém as seguintes ferramentas:
+- Python 3.8 or newer (tested with Python 3.12.4)
+- Operating Systems: Windows 10/11, Linux, macOS
+- Required Python packages:
+  ```
+  requests>=2.25.0
+  concurrent.futures (included in Python standard library)
+  argparse (included in Python standard library)
+  json (included in Python standard library)
+  socket (included in Python standard library)
+  re (included in Python standard library)
+  zipfile (included in Python standard library)
+  datetime (included in Python standard library)
+  logging (included in Python standard library)
+  ```
+
+## Installation
+
+```bash
+# Clone this repository
+git clone https://github.com/vago00/prometheus-security-toolkit.git
+cd prometheus-security-toolkit
+
+# Install required dependencies
+pip install requests
+```
+
+## Included Tools
+
+The toolkit contains the following tools:
 
 ### 1. Prometheus Massacre Ultimate
 
-Ferramenta avançada para coleta e análise de dados de servidores Prometheus expostos.
+Advanced tool for collecting and analyzing data from exposed Prometheus servers.
 
-#### Uso Básico
+#### Basic Usage
 
 ```bash
-python prometheus_massacre_ultimate.py --url http://seu-prometheus:9090
+python prometheus_massacre_ultimate.py --url http://your-prometheus:9090
 ```
 
-#### Opções Completas
+#### Complete Options
 
-| Opção | Descrição |
+| Option | Description |
 |-------|-----------|
-| `--url` | URL do Prometheus alvo (ex: http://192.168.100.1:9090) |
-| `--stealth` | Modo stealth (1 req/seg) para evitar detecção |
-| `--massacre` | Modo massacre (paralelismo máximo) para coleta agressiva |
-| `--depth` | Profundidade de análise (1-5), onde 5 é a mais profunda |
-| `--output` | Diretório de saída personalizado para os resultados |
+| `--url` | Prometheus target URL (ex: http://your-prometheus:9090) |
+| `--stealth` | Stealth mode (1 req/sec) to avoid detection |
+| `--massacre` | Massacre mode (maximum parallelism) for aggressive collection |
+| `--depth` | Analysis depth (1-5), where 5 is the deepest |
+| `--output` | Custom output directory for results |
 
-#### Exemplos de Uso
+#### Usage Examples
 
-Análise básica:
+Basic analysis:
 ```bash
-python prometheus_massacre_ultimate.py --url http://192.168.100.1:9090
+python prometheus_massacre_ultimate.py --url http://your-prometheus:9090
 ```
 
-Análise sigilosa:
+Stealthy analysis:
 ```bash
-python prometheus_massacre_ultimate.py --url http://192.168.100.1:9090 --stealth
+python prometheus_massacre_ultimate.py --url http://your-prometheus:9090 --stealth
 ```
 
-Análise profunda e agressiva:
+Deep and aggressive analysis:
 ```bash
-python prometheus_massacre_ultimate.py --url http://192.168.100.1:9090 --massacre --depth 5
+python prometheus_massacre_ultimate.py --url http://your-prometheus:9090 --massacre --depth 5
 ```
 
-Análise com diretório personalizado:
+Analysis with custom directory:
 ```bash
-python prometheus_massacre_ultimate.py --url http://192.168.100.1:9090 --output prometheus_resultados
+python prometheus_massacre_ultimate.py --url http://your-prometheus:9090 --output prometheus_results
 ```
 
-### 2. Verificador de Vulnerabilidade DoS
+### 2. DoS Vulnerability Checker
 
-Ferramenta que verifica se uma instância Prometheus é vulnerável a ataques de negação de serviço.
+Tool that checks if a Prometheus instance is vulnerable to denial of service attacks.
 
-#### Uso Básico
+#### Basic Usage
 
 ```bash
-python prometheus_ddos_vulnerability_checker.py -u http://seu-prometheus:9090
+python prometheus_ddos_vulnerability_checker.py -u http://your-prometheus:9090
 ```
 
-#### Opções Completas
+#### Complete Options
 
-| Opção | Descrição |
+| Option | Description |
 |-------|-----------|
-| `-u, --url` | URL do servidor Prometheus (obrigatório) |
-| `-t, --timeout` | Timeout para requisições em segundos (padrão: 10) |
-| `-c, --concurrency` | Número de testes concorrentes (padrão: 3) |
-| `-p, --port-timeout` | Timeout para verificação de porta (padrão: 3.0) |
-| `-v, --verbose` | Modo verboso com mais informações |
-| `--no-banner` | Não mostrar o banner de início |
-| `--no-color` | Desabilitar cores no output |
-| `--log-file` | Arquivo para salvar logs (ex: prometheus_check.log) |
-| `--username` | Usuário para autenticação básica |
-| `--password` | Senha para autenticação básica |
-| `--token` | Token de autenticação |
-| `--ignore-ssl` | Ignorar verificação de certificados SSL |
-| `--rate-limit-test` | Testar existência de rate limiting |
-| `--output` | Arquivo de saída para o relatório JSON |
+| `-u, --url` | Prometheus server URL (required) |
+| `-t, --timeout` | Request timeout in seconds (default: 10) |
+| `-c, --concurrency` | Number of concurrent tests (default: 3) |
+| `-p, --port-timeout` | Port check timeout (default: 3.0) |
+| `-v, --verbose` | Verbose mode with more information |
+| `--no-banner` | Don't show the start banner |
+| `--no-color` | Disable colors in output |
+| `--log-file` | File to save logs (ex: prometheus_check.log) |
+| `--username` | Username for basic authentication |
+| `--password` | Password for basic authentication |
+| `--token` | Authentication token |
+| `--ignore-ssl` | Ignore SSL certificate verification |
+| `--rate-limit-test` | Test for rate limiting implementation |
+| `--output` | Output file for the JSON report |
 
-#### Exemplos de Uso
+#### Usage Examples
 
-Verificação básica:
+Basic check:
 ```bash
-python prometheus_ddos_vulnerability_checker.py -u http://seu-prometheus:9090
+python prometheus_ddos_vulnerability_checker.py -u http://your-prometheus:9090
 ```
 
-Verificação com autenticação:
+Check with authentication:
 ```bash
-python prometheus_ddos_vulnerability_checker.py -u http://seu-prometheus:9090 --username admin --password senha
+python prometheus_ddos_vulnerability_checker.py -u http://your-prometheus:9090 --username admin --password password
 ```
 
-Verificação completa com teste de rate limiting:
+Complete check with rate limiting test:
 ```bash
-python prometheus_ddos_vulnerability_checker.py -u http://seu-prometheus:9090 --rate-limit-test --verbose
+python prometheus_ddos_vulnerability_checker.py -u http://your-prometheus:9090 --rate-limit-test --verbose
 ```
 
-### 3. Analisador de Dumps
+### 3. Dump Analyzer
 
-Ferramenta para análise avançada de dumps de memória em busca de dados sensíveis.
+Tool for advanced analysis of memory dumps looking for sensitive data.
 
-#### Uso Básico
+#### Basic Usage
 
 ```bash
-python dump_analise_advanced.py --dir diretorio_com_dumps
+python dump_analise_advanced.py --dir directory_with_dumps
 ```
 
-#### Opções Completas
+#### Complete Options
 
-| Opção | Descrição |
+| Option | Description |
 |-------|-----------|
-| `--dir` | Diretório contendo os dumps (.dump, pprof) [Obrigatório] |
-| `--add-pattern` | Adicionar padrão regex customizado para busca (pode ser usado múltiplas vezes) |
+| `--dir` | Directory containing dumps (.dump, pprof) [Required] |
+| `--add-pattern` | Add custom regex pattern for search (can be used multiple times) |
 
-#### Exemplos de Uso
+#### Usage Examples
 
-Análise básica de dumps:
+Basic dump analysis:
 ```bash
 python dump_analise_advanced.py --dir ./prometheus_massacre_20250310_123456
 ```
 
-Análise com padrões personalizados:
+Analysis with custom patterns:
 ```bash
-python dump_analise_advanced.py --dir ./prometheus_massacre_20250310_123456 --add-pattern "senha: \S+" --add-pattern "api_token: \S+"
+python dump_analise_advanced.py --dir ./prometheus_massacre_20250310_123456 --add-pattern "password: \S+" --add-pattern "api_token: \S+"
 ```
 
-## O Que Cada Ferramenta Faz
+## What Each Tool Does
 
 ### Prometheus Massacre Ultimate
-Esta ferramenta coleta dados de um servidor Prometheus através de múltiplos endpoints, analisando as respostas em busca de informações sensíveis como:
-- Credenciais e tokens de acesso
-- Chaves de API e segredos
-- IPs e hostnames internos
-- URLs de serviços internos
-- Configurações e detalhes da infraestrutura
+This tool collects data from a Prometheus server through multiple endpoints, analyzing the responses for sensitive information such as:
+- Credentials and access tokens
+- API keys and secrets
+- Internal IPs and hostnames
+- Internal service URLs
+- Infrastructure configuration and details
 
-A profundidade da análise define quanto a ferramenta vai explorar:
-- **Nível 1**: Coleta básica de endpoints padrão
-- **Nível 2-3**: Coleta endpoints e executa queries PromQL
-- **Nível 4-5**: Análise completa com busca por outros serviços e exporters
+The depth of analysis defines how much the tool will explore:
+- **Level 1**: Basic collection of standard endpoints
+- **Levels 2-3**: Collects endpoints and executes PromQL queries
+- **Levels 4-5**: Complete analysis with search for other services and exporters
 
-### Verificador de Vulnerabilidade DoS
-Esta ferramenta verifica se uma instância Prometheus é suscetível a ataques de negação de serviço, examinando:
-- Endpoints vulneráveis que consomem muitos recursos (ex: heap profiling)
-- Consultas PromQL potencialmente pesadas
-- Exposição pública do servidor
-- Implementação de rate limiting
-- Vulnerabilidades em endpoints de federação
+### DoS Vulnerability Checker
+This tool checks if a Prometheus instance is susceptible to denial of service attacks by examining:
+- Vulnerable endpoints that consume many resources (ex: heap profiling)
+- Potentially heavy PromQL queries
+- Public exposure of the server
+- Rate limiting implementation
+- Vulnerabilities in federation endpoints
 
-A ferramenta gera uma pontuação de risco de 0 a 10 e fornece recomendações específicas para mitigar as vulnerabilidades detectadas, sem realizar ataques reais ao alvo.
+The tool generates a risk score from 0 to 10 and provides specific recommendations to mitigate detected vulnerabilities, without performing actual attacks on the target.
 
-### Analisador de Dumps
-Esta ferramenta examina arquivos de despejo de memória (.dump, pprof) extraídos durante um ataque ao Prometheus. Ela procura por:
-- Chaves de API e tokens
-- Senhas e credenciais
-- E-mails e URLs
-- Padrões personalizados definidos pelo usuário
+### Dump Analyzer
+This tool examines memory dump files (.dump, pprof) extracted during a Prometheus attack. It looks for:
+- API keys and tokens
+- Passwords and credentials
+- Emails and URLs
+- Custom patterns defined by the user
 
-## Instalação
-
-```bash
-# Clone este repositório
-git clone https://github.com/seu-usuario/prometheus-security-toolkit.git
-cd prometheus-security-toolkit
-
-# Instale as dependências necessárias
-pip install requests argparse concurrent.futures
-```
-
-## Resultados
+## Results
 
 ### Prometheus Massacre Ultimate
-A ferramenta cria um diretório com os seguintes resultados:
-- Dumps de todos os endpoints acessados
-- Arquivos com vazamentos marcados como "LEAKS_*"
-- Análise dos resultados JSON
-- Relatório final "_RELATORIO_FINAL.txt"
+The tool creates a directory with the following results:
+- Dumps of all accessed endpoints
+- Files with leaks marked as "LEAKS_*"
+- Analysis of JSON results
+- Final report "_RELATORIO_FINAL.txt"
 
-### Verificador de Vulnerabilidade DoS
-A ferramenta gera:
-- Relatório detalhado com índice de vulnerabilidade
-- Lista de todos os endpoints vulneráveis
-- Recomendações de segurança específicas
-- Arquivo JSON com todos os resultados para análise posterior
+### DoS Vulnerability Checker
+The tool generates:
+- Detailed report with vulnerability index
+- List of all vulnerable endpoints
+- Specific security recommendations
+- JSON file with all results for later analysis
 
-### Analisador de Dumps
-A ferramenta cria:
-- Um subdiretório com timestamp dentro do diretório especificado
-- Um arquivo JSON com todos os vazamentos encontrados
+### Dump Analyzer
+The tool creates:
+- A timestamp subdirectory within the specified directory
+- A JSON file with all leaks found
 
-## Aviso de Segurança
+## Compatibility Notes
 
-⚠️ **IMPORTANTE**: Estas ferramentas devem ser usadas APENAS para fins educacionais, de pesquisa e em ambientes autorizados. O uso contra sistemas sem autorização expressa é ilegal e antiético.
+- **Windows Users**: The toolkit has been tested and confirmed working on Windows 11 with Python 3.12.4.
+- **Linux/macOS Users**: All tools should work on Linux and macOS without any modifications.
+- **Python Versions**: Compatible with Python 3.8 and newer. If using older versions, some features might require minor adjustments.
+- **Terminal Colors**: For Windows users, terminal colors should work in modern terminals (Windows Terminal, PowerShell). If you experience issues with colors, use the `--no-color` option.
 
-## Uso Responsável
+## Security Warning
 
-- Use somente em seus próprios sistemas ou com permissão explícita
-- O modo stealth deve ser usado para minimizar o impacto nos sistemas
-- Não compartilhe dados sensíveis obtidos das análises
+⚠️ **IMPORTANT**: These tools should be used ONLY for educational, research, and authorized environments. Use against systems without express authorization is illegal and unethical.
 
-## Licença
+## Responsible Use
 
-Este projeto é para fins educacionais e de pesquisa apenas. Use responsavelmente.
+- Use only on your own systems or with explicit permission
+- Stealth mode should be used to minimize impact on systems
+- Do not share sensitive data obtained from analysis
+
+## License
+
+This project is for educational and research purposes only. Use responsibly.
